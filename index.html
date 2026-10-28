@@ -47,6 +47,15 @@
   .casilla input{width:auto; flex:0 0 auto; margin:2px 0 0; accent-color:var(--verde)}
   .legal{font-size:13.5px; line-height:1.45; color:var(--tenue); margin:15px 0 0}
   .legal a{color:var(--carbon)}
+  .grupos{display:grid; gap:10px; margin:16px 0 0}
+  @media(min-width:620px){.grupos{grid-template-columns:1fr 1fr}}
+  .grupo-tarjeta{
+    display:block; text-decoration:none; color:inherit; background:#fff;
+    border:1px solid var(--linea); border-radius:9px; padding:14px 16px;
+  }
+  .grupo-tarjeta:hover{border-color:var(--verde); background:#f6fcf8}
+  .grupo-tarjeta b{display:block; font-size:13px; color:var(--verde); letter-spacing:.04em; margin:0 0 4px}
+  .grupo-tarjeta span{font-size:15px; line-height:1.4}
   .gracias{
     background:#f6fcf8; border:1px solid var(--verde-claro); border-left:4px solid var(--verde);
     border-radius:9px; padding:16px 18px; margin:0; max-width:460px; font-size:16px;
@@ -147,7 +156,8 @@
          junto a los correos. -->
     <form name="acceso-libro" data-netlify="true" netlify-honeypot="bot-field" hidden>
       <input type="email" name="correo">
-      <input type="text" name="publicidad">
+      <input type="text" name="publicaciones">
+      <input type="text" name="webinars">
       <input type="text" name="fecha">
       <input type="text" name="fuente">
       <input type="text" name="bot-field">
@@ -184,31 +194,57 @@
     <section class="noimp" id="caja-correo" style="margin:34px 0 0">
       <h2>¿Te avisamos cuando algo de esto cambie?</h2>
       <p class="tenue">La norma se sigue moviendo. Si un formato de los descargables se
-      actualiza por una reforma, o si se publica una corrección al libro, te lo decimos
-      por correo. Nada más para eso.</p>
+      actualiza por una reforma, o si se corrige algo del libro, te lo decimos por correo.
+      Para eso sirve dejarlo; lo demás tú decides si lo quieres.</p>
       <form id="form-correo" autocomplete="on">
         <div class="campo">
           <label for="correo">Tu correo</label>
           <input id="correo" name="correo" type="email" required spellcheck="false"
                  autocomplete="email" placeholder="nombre@empresa.com">
+          <p class="pista">Te escribimos cuando cambie un formato o se corrija el libro.</p>
         </div>
+        <p class="legal" style="margin-bottom:0"><b>Y si quieres, también:</b></p>
         <label class="casilla">
-          <input type="checkbox" id="sinpublicidad">
-          <span>No quiero recibir invitaciones ni publicidad de GMC360 y 360Educa.</span>
+          <input type="checkbox" id="publicaciones">
+          <span>Avísenme de las nuevas publicaciones de los autores.</span>
+        </label>
+        <label class="casilla">
+          <input type="checkbox" id="webinars">
+          <span>Avísenme de los webinars, cursos y eventos de GMC360 y 360Educa.</span>
         </label>
         <p class="legal">
           Tu correo lo trata OTERCES Consultores de México, S.A. de C.V. («GMC 360») para
           los fines del <a href="aviso-privacidad.html" target="_blank" rel="noopener">aviso
-          de privacidad</a>. No lo compartimos con nadie y lo puedes dar de baja cuando
-          quieras.
+          de privacidad</a>. Sólo te llega lo que marques, no lo compartimos con nadie y lo
+          puedes dar de baja cuando quieras.
         </p>
         <button type="submit" id="avisenme">Avísenme</button>
         <div id="error-correo" class="error oculto" role="alert"></div>
       </form>
       <p class="gracias oculto" id="gracias">
-        <b>Anotado.</b> Te escribimos sólo si algo cambia. Tu plan sigue abajo y lo puedes
+        <b>Anotado.</b> Te escribimos sólo lo que pediste. Tu plan sigue arriba y lo puedes
         bajar o imprimir las veces que quieras.
       </p>
+    </section>
+
+    <section class="noimp oculto" id="caja-grupos" style="margin:34px 0 0">
+      <h2>Los grupos</h2>
+      <p class="tenue">Dos grupos de WhatsApp donde se comenta lo que se publica en el
+      Diario Oficial y lo que la autoridad va dejando ver. Son gratuitos y separados por
+      régimen, porque las obligaciones no son las mismas.</p>
+      <div class="grupos">
+        <a class="grupo-tarjeta" id="grupo-av" href="#" target="_blank" rel="noopener">
+          <b>ACTIVIDADES VULNERABLES</b>
+          <span>El de este libro: LFPIORPI, su Reglamento y las Reglas.</span>
+        </a>
+        <a class="grupo-tarjeta" id="grupo-fin" href="#" target="_blank" rel="noopener">
+          <b>SECTOR FINANCIERO</b>
+          <span>Entidades supervisadas por la CNBV y sus Disposiciones. Otro régimen.</span>
+        </a>
+      </div>
+      <p class="legal">Los grupos los administra GMC360 dentro de WhatsApp: no pasan por
+      este sitio y no recibimos tu número. Ten en cuenta que, al entrar a un grupo, los
+      demás integrantes ven tu número de teléfono.</p>
     </section>
 
     <p class="chico tenue noimp" id="pie-edicion" style="margin-top:30px"></p>
@@ -240,6 +276,13 @@
       if (!r.ok) throw new Error(cuerpo.error || 'No se pudo comprobar la clave.');
       DATOS = cuerpo;
       $('#pie-edicion').textContent = DATOS.edicion;
+      // Las ligas de los grupos no están en el HTML del sitio: vienen con el plan, o
+      // sea sólo con la clave buena. Una liga de invitación de WhatsApp pegada en una
+      // página pública la copia cualquiera y el grupo se llena de quien no leyó nada.
+      const g = DATOS.grupos || {};
+      if (g.av) $('#grupo-av').href = g.av;
+      if (g.fin) $('#grupo-fin').href = g.fin;
+      ver($('#caja-grupos'), !!(g.av || g.fin));
       pintarActividades();
       ver($('#puerta'), false); ver($('#selector'), true);
       $('#selector').scrollIntoView({ block: 'start' });
@@ -260,7 +303,8 @@
     const datos = new URLSearchParams({
       'form-name': 'acceso-libro',
       correo: $('#correo').value.trim(),
-      publicidad: $('#sinpublicidad').checked ? 'NO quiere recibir' : 'Sí acepta recibir',
+      publicaciones: $('#publicaciones').checked ? 'Sí' : 'No',
+      webinars: $('#webinars').checked ? 'Sí' : 'No',
       fecha: new Date().toLocaleString('es-MX', { timeZone: 'America/Mexico_City' }),
       fuente: 'Edición preliminar · ASONOC Monterrey 2026',
     });
