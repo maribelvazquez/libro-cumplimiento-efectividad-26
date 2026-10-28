@@ -39,6 +39,14 @@
   #clave{letter-spacing:.06em; text-transform:uppercase; font-variant-numeric:tabular-nums}
   .campo+.campo{margin-top:15px}
   .pista{font-size:13.5px; color:var(--tenue); margin:5px 0 0}
+  .casilla{
+    display:flex; gap:9px; align-items:flex-start; margin:15px 0 0;
+    font-size:14.5px; line-height:1.4; color:var(--carbon); cursor:pointer;
+    font-weight:400;
+  }
+  .casilla input{width:auto; flex:0 0 auto; margin:2px 0 0; accent-color:var(--verde)}
+  .legal{font-size:13.5px; line-height:1.45; color:var(--tenue); margin:15px 0 0}
+  .legal a{color:var(--carbon)}
   button{
     font:600 16px/1 inherit; font-family:inherit; padding:12px 20px; border:0; border-radius:7px;
     background:var(--negro); color:#fff; cursor:pointer; margin-top:18px;
@@ -122,13 +130,36 @@
         <p class="pista" id="pista-clave">No distingue mayúsculas ni espacios.</p>
       </div>
       <div class="campo">
-        <label for="correo">Tu correo <span class="tenue" style="font-weight:400">(opcional)</span></label>
-        <input id="correo" name="correo" type="email" spellcheck="false"
-               placeholder="nombre@empresa.com" aria-describedby="pista-correo">
-        <p class="pista" id="pista-correo">Sólo si quieres que te avisemos cuando los formatos se actualicen por un cambio normativo.</p>
+        <label for="correo">Tu correo</label>
+        <input id="correo" name="correo" type="email" required spellcheck="false"
+               autocomplete="email" placeholder="nombre@empresa.com" aria-describedby="pista-correo">
+        <p class="pista" id="pista-correo">Para avisarte cuando un formato se actualice por un cambio normativo, o si se publica una corrección al libro.</p>
       </div>
+      <label class="casilla">
+        <input type="checkbox" id="sinpublicidad">
+        <span>No quiero recibir invitaciones ni publicidad de GMC360 y 360Educa.</span>
+      </label>
+      <p class="legal">
+        Tu correo lo trata OTERCES Consultores de México, S.A. de C.V. («GMC 360») para
+        los fines del <a href="aviso-privacidad.html" target="_blank" rel="noopener">aviso
+        de privacidad</a>. Las fracciones que marques no se guardan en ninguna parte: tu
+        plan se arma en este navegador.
+      </p>
       <button type="submit" id="entrar">Entrar</button>
       <div id="error" class="error oculto" role="alert"></div>
+    </form>
+
+    <!-- Declaración del formulario para Netlify Forms. Netlify lo detecta al
+         publicar el sitio y crea el buzón «acceso-libro»; los correos se ven y se
+         exportan en Netlify → Forms. Está oculto porque el formulario de arriba es
+         el que ve la gente: éste nada más existe para que Netlify sepa qué campos
+         esperar. La clave NO va aquí a propósito, para que no quede registrada
+         junto a los correos. -->
+    <form name="acceso-libro" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="email" name="correo">
+      <input type="text" name="publicidad">
+      <input type="text" name="fecha">
+      <input type="text" name="bot-field">
     </form>
   </section>
 
@@ -183,6 +214,7 @@
       });
       const cuerpo = await r.json();
       if (!r.ok) throw new Error(cuerpo.error || 'No se pudo comprobar la clave.');
+      registrar();
       DATOS = cuerpo;
       $('#pie-edicion').textContent = DATOS.edicion;
       pintarActividades();
@@ -193,6 +225,24 @@
       btn.disabled = false; btn.textContent = 'Entrar';
     }
   });
+
+  // ---- el correo, al buzón de Netlify Forms ----
+  // Se manda después de que la clave resultó buena, y a propósito no se espera la
+  // respuesta: si el buzón falla, la puerta se abre igual. Lo que se prometió en el
+  // colofón es el plan, no la lista de correos.
+  function registrar() {
+    const datos = new URLSearchParams({
+      'form-name': 'acceso-libro',
+      correo: $('#correo').value.trim(),
+      publicidad: $('#sinpublicidad').checked ? 'NO quiere recibir' : 'Sí acepta recibir',
+      fecha: new Date().toLocaleString('es-MX', { timeZone: 'America/Mexico_City' }),
+    });
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: datos.toString(),
+    }).catch(() => {});
+  }
 
   // ---- selector ----
   function pintarActividades() {

@@ -14,11 +14,11 @@ firma. De ahí lo baja en Excel o lo imprime.
 project → GitHub*, y escoger `libro-cumplimiento-efectividad-26`. No hay que
 configurar comando de build ni carpeta: el `netlify.toml` ya lo dice.
 
-**Al crear el sitio, ponle de nombre `libro360`**, para que la dirección quede
-`libro360.netlify.app`: es la que está impresa en el colofón de la edición
-preliminar. Si ese nombre ya está ocupado, hay que escoger otro **y corregir el
-colofón antes de mandar a imprenta**, porque son veinte caracteres que alguien
-va a teclear a mano desde una hoja de papel.
+**El sitio es el que ya existe: `libro-cumplimiento-efectividad.netlify.app`.**
+Ésa es la dirección impresa en el colofón de la edición preliminar, así que no se
+cambia el nombre del proyecto en Netlify. Si algún día se cambia, hay que corregir
+el colofón **antes** de mandar a imprenta: son treinta y siete caracteres que
+alguien va a teclear a mano desde una hoja de papel.
 
 **2. Poner la clave.** En *Site settings → Environment variables*, crear:
 
@@ -46,6 +46,7 @@ el colofón del tiraje siguiente; la anterior deja de servir sin tocar el códig
 
 ```
 index.html                     La página: puerta, selector de fracciones y plan
+aviso-privacidad.html          Aviso de privacidad integral, LFPDPPP
 netlify/functions/plan.js      Valida la clave y entrega el plan
 netlify/functions/plan.json    Los 246 renglones del libro, por capítulo y sector
 netlify.toml                   Configuración del sitio
@@ -60,11 +61,41 @@ clave correcta. Por eso `plan.json` vive dentro de `netlify/functions/` y el
 
 ## El correo de quien entra
 
-Es opcional. Quien no lo quiera dar, entra igual: el libro ya se pagó y la
-puerta no está para cobrar dos veces. Quien sí lo deja queda registrado en los
-logs de la función (*Netlify → Functions → plan*). Si más adelante se quiere una
-lista de verdad, el lugar para mandarla a una hoja o a un CRM está marcado en
-`plan.js`.
+**Se pide, y es obligatorio.** Los correos llegan al buzón `acceso-libro` de
+**Netlify Forms** (*Netlify → Forms → acceso-libro*), donde se ven uno por uno y se
+exportan a CSV con un botón. Cada renglón trae tres cosas: el correo, la fecha con
+hora de la Ciudad de México, y si la persona marcó o no la casilla de no querer
+publicidad.
+
+**La clave no viaja en ese formulario.** El formulario oculto que Netlify detecta
+declara nada más `correo`, `publicidad` y `fecha`; la clave va por separado, a la
+función, y no queda registrada junto a los correos. La función tampoco escribe el
+correo en sus logs: dos copias del mismo dato personal en dos lugares distintos es
+una copia de más.
+
+**Si el buzón falla, la puerta se abre igual.** El envío a Forms no se espera: lo
+que el colofón prometió es el plan, no la lista de correos.
+
+**Si algún día se quiere que el correo vuelva a ser opcional** son dos cambios:
+quitar el atributo `required` del campo en `index.html` y el bloque de validación
+marcado en `plan.js`.
+
+### El aviso de privacidad
+
+Un correo es un dato personal y la LFPDPPP pide avisar para qué se usa, así que la
+puerta liga a `aviso-privacidad.html`, redactado con la misma estructura que el del
+Laboratorio de Casos. Dice tres cosas que conviene no perder al editarlo:
+
+- Las fracciones del artículo 17 que la persona marca **no se guardan en ninguna
+  parte**: el plan se arma en su navegador. Esa selección revelaría a qué
+  Actividades Vulnerables se dedica su empresa.
+- La oposición a la publicidad se ejerce con la casilla de la puerta o escribiendo
+  a `claudia@gmc360.com.mx`, y no afecta el acceso.
+- Los derechos ARCO se ejercen en `claudia@gmc360.com.mx`, y la autoridad es la
+  Secretaría Anticorrupción y Buen Gobierno.
+
+El domicilio, la razón social y el correo de contacto salen del aviso que ya usa
+GMC 360. Si cambian allá, cambian aquí.
 
 ---
 
@@ -80,8 +111,8 @@ Cada archivo que se agregue a `descargables/` queda disponible en cuanto se suba
 
 ## El dominio, más adelante
 
-La edición preliminar imprime `libro360.netlify.app` porque no había tiempo de
-registrar un dominio propio. Para la edición con ISBN conviene cambiarlo a un
+La edición preliminar imprime `libro-cumplimiento-efectividad.netlify.app` porque
+no había tiempo de registrar un dominio propio. Para la edición con ISBN conviene cambiarlo a un
 subdominio de `gmc360.com.mx`: un libro dura años y un subdominio prestado dura
 lo que dure la cuenta. Se hace en *Domain management → Add a domain* y con un
 registro CNAME en el DNS del dominio. El sitio no cambia; sólo la dirección.
@@ -90,7 +121,10 @@ registro CNAME en el DNS del dominio. El sitio no cambia; sólo la dirección.
 
 ## Pendiente
 
-- Los diez formatos en Excel que los capítulos citan por su nombre.
-- Que el sitio se llame `libro360`, o corregir el colofón si no se pudo.
-- Que `CLAVE_LIBRO` esté configurada antes de imprimir el colofón.
+- Los nueve formatos en Excel que los capítulos citan por su nombre.
+- Que `CLAVE_LIBRO` esté configurada **antes** de imprimir el colofón, y que alguien
+  entre una vez con la clave para comprobar que la puerta abre.
+- Que el buzón `acceso-libro` aparezca en *Netlify → Forms* después del primer
+  despliegue. Si no aparece, es que Netlify no detectó el formulario oculto de
+  `index.html`: se arregla volviendo a desplegar.
 - El ISBN, para la página legal de la edición comercial.

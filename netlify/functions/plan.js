@@ -59,14 +59,23 @@ exports.handler = async (event) => {
     });
   }
 
-  // El correo es opcional a propósito: quien no lo quiera dar, entra igual. Una
-  // puerta que exige datos para entregar lo que ya se pagó con el libro es otra
-  // cosa, y no es lo que se prometió en el libro.
+  // El correo se pide. Quien entra deja una dirección donde avisarle si un formato
+  // cambia por una reforma o si se publica una corrección al libro.
+  //
+  // AQUÍ NO SE GUARDA NADA. El correo lo recibe Netlify Forms, al que la página lo
+  // manda por separado (buzón «acceso-libro», en Netlify → Forms). Esta función
+  // nada más comprueba que venga algo con forma de correo, y ni lo escribe en los
+  // logs: dos copias del mismo dato personal en dos lugares distintos es una copia
+  // de más.
+  //
+  // SI ALGÚN DÍA SE QUIERE QUE EL CORREO VUELVA A SER OPCIONAL, se quita este
+  // bloque y el atributo «required» del campo en index.html. Son dos cambios.
   const correo = String(cuerpo.correo || '').trim().slice(0, 254);
-  if (correo) {
-    // Netlify registra esto en los logs de la función. Si más adelante se quiere
-    // una lista de verdad, aquí es donde se manda a una hoja o a un CRM.
-    console.log(JSON.stringify({ evento: 'acceso', correo, fecha: new Date().toISOString() }));
+  if (!/^[^@\s]+@[^@\s.]+\.[^@\s]{2,}$/.test(correo)) {
+    return json(400, {
+      error: 'Falta tu correo, o está incompleto. Es donde te avisamos si un ' +
+             'formato cambia por una reforma.',
+    });
   }
 
   return json(200, plan);
