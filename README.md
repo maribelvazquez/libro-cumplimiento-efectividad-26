@@ -1,10 +1,18 @@
 # Del cumplimiento a la efectividad · sitio de descargables
 
 Acompaña al libro de Maribel Vázquez Menchaca y Sandro García Rojas Castillo.
-Quien tiene el libro entra con la clave impresa en el colofón, marca qué
-fracciones del artículo 17 realiza, y el sitio le arma **su** plan de
-implementación: nada más los papeles que le tocan, con sus plazos y quién los
-firma. De ahí lo baja en Excel o lo imprime.
+Quien tiene el libro entra con la clave impresa en el colofón y se lleva los
+diecinueve formatos que varios capítulos mencionan por su nombre: la matriz de
+riesgo, el Manual modelo, el diagnóstico de brecha, el plan de implementación y los
+demás. Ahí mismo puede dejar su correo para que le avisemos si un formato cambia
+por una reforma, y entrar a los dos grupos de WhatsApp.
+
+**El sitio no pregunta a qué se dedica nadie.** Hubo un armador que pedía marcar las
+fracciones del artículo 17 y devolvía una lista de papeles filtrada; se quitó el 28
+de octubre de 2026 porque el filtro no filtraba: de 246 renglones, 202 le tocaban a
+todo mundo, así que quien realizaba una sola fracción recibía 210. El código está en
+el historial de git. La lista de verdad vive en los formatos, como
+`Plan_de_Implementacion.xlsx`.
 
 ---
 
@@ -48,7 +56,7 @@ el colofón del tiraje siguiente; la anterior deja de servir sin tocar el códig
 index.html                     La página: puerta, selector de fracciones y plan
 aviso-privacidad.html          Aviso de privacidad integral, LFPDPPP
 netlify/functions/plan.js      Valida la clave y entrega el plan
-netlify/functions/plan.json    Los 246 renglones del libro, por capítulo y sector
+netlify/functions/plan.json    El catálogo de formatos, las ligas de los grupos y la edición
 netlify.toml                   Configuración del sitio
 descargables/                  Los 19 formatos del aula de Oaxaca
 ```

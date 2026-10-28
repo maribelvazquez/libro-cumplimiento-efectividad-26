@@ -101,42 +101,6 @@
     background:var(--verde); color:#fff; border-radius:20px; padding:2px 8px; vertical-align:1px;
   }
 
-  /* ---- la tarjeta de la lista ---- */
-  .oferta{
-    background:#fff; border:1px solid var(--linea); border-left:4px solid var(--verde);
-    border-radius:10px; padding:20px 22px; margin:0 0 34px;
-  }
-  .oferta h2{margin:0 0 8px}
-  .oferta p{margin:0 0 6px}
-  .oferta button{margin-top:14px}
-
-  /* ---- selector ---- */
-  fieldset{border:0; margin:0; padding:0}
-  legend{padding:0}
-  .acts{display:grid; gap:9px; margin:16px 0 0}
-  @media(min-width:620px){.acts{grid-template-columns:1fr 1fr}}
-  .act{
-    display:flex; gap:10px; align-items:flex-start; background:#fff; cursor:pointer;
-    border:1px solid var(--linea); border-radius:9px; padding:11px 13px;
-  }
-  .act:hover{border-color:var(--verde-claro)}
-  .act input{width:auto; margin:3px 0 0; accent-color:var(--verde); flex:0 0 auto}
-  .act b{display:block; font-size:13px; color:var(--verde); letter-spacing:.04em}
-  .act span{font-size:15px; line-height:1.35}
-  .act:has(input:checked){border-color:var(--verde); background:#f6fcf8}
-
-  /* ---- resumen de la lista ---- */
-  .resumen{
-    background:#fff; border:1px solid var(--linea); border-left:4px solid var(--verde);
-    border-radius:9px; padding:18px 20px; margin:0 0 20px;
-  }
-  .cifras{display:flex; flex-wrap:wrap; gap:26px; margin:12px 0 0}
-  .cifra b{display:block; font-size:30px; line-height:1.1; font-variant-numeric:tabular-nums}
-  .cifra span{font-size:13.5px; color:var(--tenue)}
-  .porseccion{margin:0 0 24px; font-size:15.5px}
-  .porseccion li{margin:0 0 5px}
-  .barra{display:flex; gap:10px; flex-wrap:wrap; margin:0 0 10px}
-
   /* ---- grupos ---- */
   .grupos{display:grid; gap:10px; margin:16px 0 0}
   @media(min-width:620px){.grupos{grid-template-columns:1fr 1fr}}
@@ -148,30 +112,11 @@
   .grupo-tarjeta b{display:block; font-size:13px; color:var(--verde); letter-spacing:.04em; margin:0 0 4px}
   .grupo-tarjeta span{font-size:15px; line-height:1.4}
 
-  /* ---- la lista completa, sólo al imprimir ---- */
-  #impresion{display:none}
-  #impresion .papel{border:1px solid var(--linea); border-radius:9px; background:#fff; padding:14px 16px; margin:0 0 9px}
-  #impresion .papel .doc{font-weight:600; margin:0 0 7px; line-height:1.4}
-  #impresion .papel dl{display:grid; grid-template-columns:auto 1fr; gap:3px 12px; margin:0; font-size:14.5px}
-  #impresion .papel dt{color:var(--tenue)}
-  #impresion .papel dd{margin:0}
-  #impresion h3{
-    font-size:16px; margin:26px 0 10px; padding-bottom:7px; color:var(--carbon);
-    border-bottom:2px solid var(--verde-claro);
-  }
-  .etq{
-    display:inline-block; font-size:12px; font-weight:700; letter-spacing:.05em;
-    padding:2px 8px; border-radius:20px; vertical-align:2px; margin-right:7px;
-  }
-  .ob{background:var(--negro); color:#fff}
-  .re{background:#eef0ef; color:var(--carbon)}
-
   @media print{
     body{background:#fff; font-size:11pt}
-    header,form,fieldset,.barra,.noimp,.oferta{display:none !important}
-    #impresion{display:block !important}
-    #impresion .papel,.resumen{break-inside:avoid; border-radius:0}
+    header,form,.noimp{display:none !important}
     main .caja{padding:0}
+    .descarga{break-inside:avoid; border-radius:0}
   }
 </style>
 </head>
@@ -200,8 +145,7 @@
   <section id="puerta">
     <h2>Entra con la clave de tu libro</h2>
     <p class="tenue">Está impresa en el colofón, al final del ejemplar. Cópiala tal cual, con el guion.</p>
-    <p class="tenue chico">No pedimos tus datos para entrar, y las fracciones que marques no se guardan
-    en ninguna parte: todo se arma dentro de este navegador.</p>
+    <p class="tenue chico">No pedimos tus datos para entrar: la clave es lo único que hace falta.</p>
     <form id="formulario" autocomplete="off">
       <div class="campo">
         <label for="clave">Clave del libro</label>
@@ -231,16 +175,12 @@
   <!-- 2 · LO QUE VE AL ENTRAR: LOS FORMATOS -->
   <section id="formatos" class="oculto">
 
-    <!-- LA LISTA DE PAPELES ESTÁ APAGADA A PROPÓSITO, 28-oct-2026.
-         Prometía «nada más los papeles que te tocan» y no era cierto: de los 246
-         renglones, 202 le tocan a todo mundo, así que quien realiza una sola fracción
-         recibía 210. El filtro movía 44 renglones de 246 y la pantalla parecía una
-         condena, no un plan. El código del selector y del resumen sigue abajo, sin
-         puerta de entrada, mientras se decide si se rehace sobre fechas de
-         exigibilidad o se quita del todo. Para volver a prenderla basta con devolver
-         este bloque con su botón #ir-selector.
-         Mientras tanto, el plan de verdad —el que hizo Maribel y se usó en aula— vive
-         en los formatos como Plan_de_Implementacion.xlsx. -->
+    <!-- Aquí vivía un armador de listas de papeles por fracción. Se quitó el 28 de
+         octubre de 2026: prometía «nada más los papeles que te tocan» y de 246
+         renglones 202 le tocaban a todo mundo, así que quien realizaba una sola
+         fracción recibía 210 y el filtro movía 44 de 246. El código completo está en
+         el historial de git, por si algún día se rehace sobre fechas de exigibilidad.
+         La lista de verdad vive en los formatos, como Plan_de_Implementacion.xlsx. -->
 
     <h2>Los formatos</h2>
     <p class="tenue">Los diecinueve que acompañan al libro, ya usados en aula. Los dos que los
@@ -320,45 +260,6 @@
     </div>
   </section>
 
-  <!-- 3 · EL SELECTOR -->
-  <section id="selector" class="oculto">
-    <h2>¿Qué actividades del artículo 17 realizas?</h2>
-    <p class="tenue">Marca todas las que apliquen. Con eso se arma la lista: nada más los papeles
-    que te tocan.</p>
-    <fieldset>
-      <legend class="oculto">Actividades Vulnerables</legend>
-      <div class="acts" id="acts"></div>
-    </fieldset>
-    <div class="barra" style="margin-top:18px">
-      <button type="button" id="armar" disabled>Ver mi lista</button>
-      <button type="button" class="secundario" id="cancelar" style="margin-top:18px">Volver a los formatos</button>
-    </div>
-  </section>
-
-  <!-- 4 · EL RESUMEN -->
-  <section id="resumen" class="oculto">
-    <div class="resumen">
-      <h2 style="margin:0">Tu lista de papeles</h2>
-      <p class="chico tenue" id="elegidas" style="margin:6px 0 0"></p>
-      <div class="cifras">
-        <div class="cifra"><b id="n-total">0</b><span>papeles en total</span></div>
-        <div class="cifra"><b id="n-ob">0</b><span>los exige la norma</span></div>
-        <div class="cifra"><b id="n-re">0</b><span>recomendación de los autores</span></div>
-      </div>
-    </div>
-    <p class="tenue noimp">Cada renglón trae el documento, por qué se pide, cuándo se genera,
-    quién lo firma y cuánto se conserva. <b>Bájala</b> y trabájala ahí: en una hoja de cálculo
-    puedes ordenarla, filtrarla y marcar lo que ya tienes.</p>
-    <ul class="porseccion noimp" id="porseccion"></ul>
-    <div class="barra noimp">
-      <button type="button" id="csv">Bajar para Excel</button>
-      <button type="button" class="secundario" id="imprimir" style="margin-top:18px">Imprimir</button>
-      <button type="button" class="secundario" id="volver" style="margin-top:18px">Cambiar mis actividades</button>
-      <button type="button" class="secundario" id="alos-formatos" style="margin-top:18px">Volver a los formatos</button>
-    </div>
-    <div id="impresion"></div>
-  </section>
-
 </div></main>
 
 <script>
@@ -369,7 +270,7 @@
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) =>
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const arriba = (sec) => { sec.scrollIntoView({ block: 'start' }); };
-  let DATOS = null, SEL = new Set(), MIOS = [];
+  let DATOS = null;
 
   // Mientras no exista «encabezado.png», el hueco de la imagen se quita solo en vez de
   // dejar el icono de imagen rota. El día que el archivo esté, aparece sin tocar código.
@@ -399,7 +300,6 @@
       if (g.fin) $('#grupo-fin').href = g.fin;
       ver($('#caja-grupos'), !!(g.av || g.fin));
       pintarDescargas();
-      pintarActividades();
       ver($('#puerta'), false); ver($('#formatos'), true);
       arriba($('#formatos'));
     } catch (ex) {
@@ -456,94 +356,6 @@
     }
   });
 
-  // ---- 3 · el selector, al que se entra sólo si se quiere ----
-  function pintarActividades() {
-    $('#acts').innerHTML = DATOS.actividades.map((a) => `
-      <label class="act">
-        <input type="checkbox" value="${a.fr}" data-sector="${a.sector}">
-        <span><b>FRACCIÓN ${a.fr}</b>${a.nombre}</span>
-      </label>`).join('');
-    $('#acts').addEventListener('change', (e) => {
-      const c = e.target;
-      if (c.checked) SEL.add(c.value); else SEL.delete(c.value);
-      $('#armar').disabled = SEL.size === 0;
-    });
-  }
-
-  const aFormatos = () => {
-    ver($('#selector'), false); ver($('#resumen'), false); ver($('#formatos'), true);
-    arriba($('#formatos'));
-  };
-  const aSelector = () => {
-    ver($('#formatos'), false); ver($('#resumen'), false); ver($('#selector'), true);
-    arriba($('#selector'));
-  };
-  const botonSelector = $('#ir-selector');            // apagado: ver el comentario del HTML
-  if (botonSelector) botonSelector.addEventListener('click', aSelector);
-  $('#cancelar').addEventListener('click', aFormatos);
-  $('#alos-formatos').addEventListener('click', aFormatos);
-  $('#volver').addEventListener('click', aSelector);
-
-  // ---- 4 · el resumen. La lista completa se baja o se imprime, no se lee en pantalla ----
-  $('#armar').addEventListener('click', () => {
-    const sectores = new Set(
-      DATOS.actividades.filter((a) => SEL.has(a.fr)).map((a) => a.sector)
-    );
-    // Los renglones sin sector le tocan a todo mundo; los de sector, sólo a quien
-    // realiza una fracción de ese sector.
-    MIOS = DATOS.renglones.filter((r) => r.sector === null || sectores.has(r.sector));
-
-    $('#n-total').textContent = MIOS.length;
-    $('#n-ob').textContent = MIOS.filter((r) => r.obligatorio).length;
-    $('#n-re').textContent = MIOS.filter((r) => !r.obligatorio).length;
-    $('#elegidas').textContent =
-      'Fracciones ' + [...SEL].join(', ') + ' · ' +
-      [...sectores].map((s) => DATOS.sectores[s]).join(' · ');
-
-    const orden = [...new Set(MIOS.map((r) => r.seccion))];
-    $('#porseccion').innerHTML = orden.map((sec) => {
-      const n = MIOS.filter((r) => r.seccion === sec).length;
-      return `<li><b>${n}</b> en ${esc(sec).toLowerCase()}</li>`;
-    }).join('');
-
-    // La lista entera sólo existe para el papel: en pantalla sería una pared.
-    $('#impresion').innerHTML = orden.map((sec) => `
-      <h3>${esc(sec)}</h3>
-      ${MIOS.filter((r) => r.seccion === sec).map(tarjeta).join('')}`).join('');
-
-    ver($('#selector'), false); ver($('#resumen'), true);
-    arriba($('#resumen'));
-  });
-
-  const tarjeta = (r) => `
-    <div class="papel">
-      <p class="doc"><span class="etq ${r.obligatorio ? 'ob' : 're'}">${r.obligatorio ? 'LA NORMA LO EXIGE' : 'RECOMENDACIÓN'}</span>${esc(r.doc)}</p>
-      <dl>
-        <dt>Por qué</dt><dd>${esc(r.exige)}</dd>
-        <dt>Cuándo</dt><dd>${esc(r.cuando)}</dd>
-        <dt>Quién firma</dt><dd>${esc(r.firma)}</dd>
-        <dt>Cuánto se guarda</dt><dd>${esc(r.conserva)}</dd>
-      </dl>
-    </div>`;
-
-  // ---- salidas ----
-  $('#csv').addEventListener('click', () => {
-    const c = (v) => '"' + String(v).replace(/"/g, '""') + '"';
-    const filas = [['Sección','Documento','¿Lo exige la norma?','Por qué','Cuándo se genera','Quién lo firma','Cuánto se conserva','Hecho']];
-    for (const r of MIOS) {
-      filas.push([r.seccion, r.doc, r.obligatorio ? 'Sí' : 'Recomendación', r.exige, r.cuando, r.firma, r.conserva, '']);
-    }
-    // El BOM es para que Excel en Windows abra los acentos bien.
-    const blob = new Blob(['﻿' + filas.map((f) => f.map(c).join(',')).join('\r\n')],
-                          { type: 'text/csv;charset=utf-8' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'Mi_lista_de_papeles.csv';
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-  });
-
-  $('#imprimir').addEventListener('click', () => window.print());
 })();
 </script>
 </body>
