@@ -146,6 +146,24 @@ Cada archivo que se agregue a `descargables/` queda disponible en cuanto se suba
 
 ---
 
+## La imagen del encabezado
+
+El sitio tiene un hueco para una imagen de cabecera arriba del título. **Para
+ponerla basta con dejar el archivo `encabezado.png` en la raíz del repositorio:**
+aparece sola, sin tocar una línea de código. Mientras ese archivo no exista, el
+hueco se quita solo y la página se ve bien sin él, sin iconos de imagen rota.
+
+| | |
+|---|---|
+| Nombre del archivo | `encabezado.png` (si es `.jpg`, cambiar la extensión en el `<img>` de `index.html`) |
+| Medida | 1640 × 500 px, o cualquier imagen con esa proporción (3.28 a 1) |
+| Recorte | Ninguno. En pantallas chicas nada más se achica, así que se puede diseñar de orilla a orilla |
+| Peso | Conviene por debajo de 300 KB, porque es lo primero que carga |
+
+Va a juego con la portada del libro, así que se diseñan juntas.
+
+---
+
 ## Los formatos, y una cosa que hay que decidir
 
 Los diecinueve archivos de `descargables/` salieron de

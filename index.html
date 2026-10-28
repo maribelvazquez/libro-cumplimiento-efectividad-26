@@ -18,10 +18,25 @@
     font:400 17px/1.55 "Segoe UI",system-ui,-apple-system,Helvetica,Arial,sans-serif;
   }
   .caja{max-width:var(--ancho); margin:0 auto; padding:0 16px}
-  header{border-bottom:1px solid var(--linea); background:#fff}
-  header .caja{padding-top:30px; padding-bottom:26px}
-  h1{margin:0 0 4px; font-size:26px; line-height:1.2; letter-spacing:-.3px}
-  .sub{margin:0; color:var(--tenue); font-size:16px}
+  header{border-bottom:3px solid var(--verde); background:#fff}
+  header .caja{padding-top:26px; padding-bottom:24px}
+  #encabezado{margin:0; line-height:0}
+  #encabezado img{display:block; width:100%; height:auto}
+  .ceja{
+    margin:0 0 7px; font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--tenue);
+  }
+  h1{margin:0 0 5px; font-size:26px; line-height:1.2; letter-spacing:-.3px}
+  .sub{margin:0 0 10px; color:var(--tenue); font-size:16px}
+  .autores{
+    margin:0; padding-top:10px; border-top:1px solid var(--linea);
+    font-size:15px; font-weight:600; color:var(--carbon);
+  }
+  .pie{
+    margin:46px 0 0; padding-top:18px; border-top:1px solid var(--linea);
+    font-size:13.5px; line-height:1.5; color:var(--tenue);
+  }
+  .pie a{color:var(--carbon)}
   main .caja{padding-top:34px; padding-bottom:70px}
   h2{font-size:21px; margin:0 0 10px; line-height:1.25}
   p{margin:0 0 14px}
@@ -162,10 +177,22 @@
 </head>
 <body>
 
-<header><div class="caja">
-  <h1>Del cumplimiento a la efectividad</h1>
-  <p class="sub">Los formatos que acompañan al libro</p>
-</div></header>
+<header>
+  <!-- EL ENCABEZADO. Para poner la imagen basta con dejar el archivo «encabezado.png»
+       en la raíz del repositorio: aparece sola, sin tocar nada de código. Mientras no
+       exista, este bloque se quita solo y la página se ve bien sin él.
+       Medida: 1640 × 500 px (o cualquier imagen con esa proporción, 3.28 a 1). No se
+       recorta en ningún tamaño de pantalla, nada más se achica, así que se puede
+       diseñar de orilla a orilla. Sirve .png o .jpg; si es .jpg, cambiar la
+       extensión aquí abajo. -->
+  <figure id="encabezado"><img src="encabezado.png" alt="Del cumplimiento a la efectividad"></figure>
+  <div class="caja" id="titulos">
+    <p class="ceja">Material de apoyo del libro</p>
+    <h1>Del cumplimiento a la efectividad</h1>
+    <p class="sub">Actividades Vulnerables: LFPIORPI, su Reglamento y las Reglas de Carácter General</p>
+    <p class="autores">Maribel Vázquez Menchaca &nbsp;·&nbsp; Sandro García Rojas Castillo</p>
+  </div>
+</header>
 
 <main><div class="caja">
 
@@ -275,9 +302,22 @@
       integrantes ven tu número de teléfono.</p>
     </section>
 
-    <p class="chico tenue noimp" id="pie-edicion" style="margin-top:40px"></p>
-    <p class="chico tenue noimp">¿Una duda sobre el libro, o un formato que no te cuadra?
-    Escríbenos a <a href="mailto:impacto@gmc360.com.mx">impacto@gmc360.com.mx</a>.</p>
+    <div class="pie noimp">
+      <p>Estos formatos son <b>material de apoyo del libro <i>Del cumplimiento a la
+      efectividad</i></b>, de Maribel Vázquez Menchaca y Sandro García Rojas Castillo, y se
+      entregan <b>con fines educativos</b>. Son modelos para trabajarse y adaptarse a cada
+      caso: <b>no constituyen asesoría jurídica, fiscal ni contable</b>, y usarlos no
+      establece relación profesional alguna con las personas autoras ni con las firmas a las
+      que pertenecen.</p>
+      <p>Las cifras en pesos se calcularon con la UMA vigente desde el 1 de febrero de 2026.
+      Para medir un acto, usa siempre la del día del acto.</p>
+      <p id="pie-edicion"></p>
+      <p>¿Una duda sobre el libro, o un formato que no te cuadra? Escríbenos a
+      <a href="mailto:impacto@gmc360.com.mx">impacto@gmc360.com.mx</a> ·
+      <a href="aviso-privacidad.html">Aviso de privacidad</a></p>
+      <p>D. R. © 2026, Maribel Vázquez Menchaca y Sandro García Rojas Castillo.
+      Sitio operado por GMC360.</p>
+    </div>
   </section>
 
   <!-- 3 · EL SELECTOR -->
@@ -330,6 +370,11 @@
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const arriba = (sec) => { sec.scrollIntoView({ block: 'start' }); };
   let DATOS = null, SEL = new Set(), MIOS = [];
+
+  // Mientras no exista «encabezado.png», el hueco de la imagen se quita solo en vez de
+  // dejar el icono de imagen rota. El día que el archivo esté, aparece sin tocar código.
+  const banner = $('#encabezado img');
+  if (banner) banner.addEventListener('error', () => $('#encabezado').remove());
 
   // ---- 1 · la puerta ----
   $('#formulario').addEventListener('submit', async (e) => {
