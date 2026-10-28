@@ -70,9 +70,15 @@ lo da la clave impresa en el ejemplar y nada más.
 
 Los correos llegan al buzón `acceso-libro` de **Netlify Forms** (*Netlify → Forms →
 acceso-libro*), donde se ven uno por uno y se exportan a CSV con un botón. Cada
-renglón trae cuatro cosas: el correo, la fecha con hora de la Ciudad de México, si
-la persona marcó la casilla de no querer publicidad, y de qué edición del libro
-venía.
+renglón trae cinco cosas: el correo, la fecha con hora de la Ciudad de México, si
+pidió las nuevas publicaciones, si pidió los webinars y eventos, y de qué edición
+del libro venía.
+
+**Las casillas son para marcar, no para desmarcar.** El aviso de cambios al libro
+es la razón por la que la persona deja su correo, así que no lleva casilla. Lo
+demás —publicaciones nuevas, webinars y eventos— sólo se manda si marca su casilla,
+y ninguna viene marcada de antemano. Así la lista queda con quien sí quiere, y el
+aviso de privacidad puede decirlo sin matices.
 
 **La función no ve el correo.** `plan.js` recibe la clave y nada más; el correo va
 directo de la página al buzón de Forms. Así no hay dos copias del mismo dato
@@ -88,6 +94,27 @@ falla, el sitio abre igual.
 
 Son dos distintos a propósito: una solicitud ARCO tiene plazos de ley y la contesta
 quien lleva ese tema; una duda sobre un formato, no.
+
+## Los grupos de WhatsApp
+
+Debajo del plan aparecen los dos grupos que administra GMC360, separados por
+régimen: uno de Actividades Vulnerables y otro de sector financiero.
+
+**Las ligas de invitación no están en el HTML del sitio.** Viven en `plan.json` y
+viajan con el plan, o sea que sólo llegan al navegador de quien metió la clave
+buena. Una liga de invitación de WhatsApp pegada en una página pública la copia
+cualquiera y el grupo se llena de quien no leyó nada. Para cambiarlas se edita
+`plan.json`; si algún día un grupo se filtra, en WhatsApp se restablece la liga
+(*Datos del grupo → Invitar por enlace → Restablecer*) y se pega la nueva aquí.
+
+La página advierte lo que WhatsApp no advierte: al entrar a un grupo, los demás
+integrantes ven tu número de teléfono. Para esta audiencia eso importa.
+
+**En el sitio van como botones, no como QR.** Un QR obliga a sacar otro teléfono
+para escanear la propia pantalla. El QR es para papel: hay un letrero A5 con los
+dos códigos para el stand de la expo, fuera de este repositorio.
+
+---
 
 ### El aviso de privacidad
 
