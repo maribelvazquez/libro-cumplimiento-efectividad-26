@@ -14,6 +14,12 @@ firma. De ahí lo baja en Excel o lo imprime.
 project → GitHub*, y escoger `libro-cumplimiento-efectividad-26`. No hay que
 configurar comando de build ni carpeta: el `netlify.toml` ya lo dice.
 
+**Al crear el sitio, ponle de nombre `libro360`**, para que la dirección quede
+`libro360.netlify.app`: es la que está impresa en el colofón de la edición
+preliminar. Si ese nombre ya está ocupado, hay que escoger otro **y corregir el
+colofón antes de mandar a imprenta**, porque son veinte caracteres que alguien
+va a teclear a mano desde una hoja de papel.
+
 **2. Poner la clave.** En *Site settings → Environment variables*, crear:
 
 | Variable | Valor |
@@ -72,8 +78,19 @@ Cada archivo que se agregue a `descargables/` queda disponible en cuanto se suba
 
 ---
 
+## El dominio, más adelante
+
+La edición preliminar imprime `libro360.netlify.app` porque no había tiempo de
+registrar un dominio propio. Para la edición con ISBN conviene cambiarlo a un
+subdominio de `gmc360.com.mx`: un libro dura años y un subdominio prestado dura
+lo que dure la cuenta. Se hace en *Domain management → Add a domain* y con un
+registro CNAME en el DNS del dominio. El sitio no cambia; sólo la dirección.
+
+---
+
 ## Pendiente
 
 - Los diez formatos en Excel que los capítulos citan por su nombre.
+- Que el sitio se llame `libro360`, o corregir el colofón si no se pudo.
 - Que `CLAVE_LIBRO` esté configurada antes de imprimir el colofón.
-- El ISBN, para la página legal del libro.
+- El ISBN, para la página legal de la edición comercial.
