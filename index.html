@@ -47,6 +47,10 @@
   .casilla input{width:auto; flex:0 0 auto; margin:2px 0 0; accent-color:var(--verde)}
   .legal{font-size:13.5px; line-height:1.45; color:var(--tenue); margin:15px 0 0}
   .legal a{color:var(--carbon)}
+  .gracias{
+    background:#f6fcf8; border:1px solid var(--verde-claro); border-left:4px solid var(--verde);
+    border-radius:9px; padding:16px 18px; margin:0; max-width:460px; font-size:16px;
+  }
   button{
     font:600 16px/1 inherit; font-family:inherit; padding:12px 20px; border:0; border-radius:7px;
     background:var(--negro); color:#fff; cursor:pointer; margin-top:18px;
@@ -122,6 +126,8 @@
   <section id="puerta">
     <h2>Entra con la clave de tu libro</h2>
     <p class="tenue">Está impresa en el colofón, al final del ejemplar. Cópiala tal cual, con el guion.</p>
+    <p class="tenue chico">No pedimos tus datos para entrar, y las fracciones que marques no se guardan
+    en ninguna parte: tu plan se arma dentro de este navegador.</p>
     <form id="formulario" autocomplete="off">
       <div class="campo">
         <label for="clave">Clave del libro</label>
@@ -129,22 +135,6 @@
                placeholder="XXXXXX-0000" aria-describedby="pista-clave">
         <p class="pista" id="pista-clave">No distingue mayúsculas ni espacios.</p>
       </div>
-      <div class="campo">
-        <label for="correo">Tu correo</label>
-        <input id="correo" name="correo" type="email" required spellcheck="false"
-               autocomplete="email" placeholder="nombre@empresa.com" aria-describedby="pista-correo">
-        <p class="pista" id="pista-correo">Para avisarte cuando un formato se actualice por un cambio normativo, o si se publica una corrección al libro.</p>
-      </div>
-      <label class="casilla">
-        <input type="checkbox" id="sinpublicidad">
-        <span>No quiero recibir invitaciones ni publicidad de GMC360 y 360Educa.</span>
-      </label>
-      <p class="legal">
-        Tu correo lo trata OTERCES Consultores de México, S.A. de C.V. («GMC 360») para
-        los fines del <a href="aviso-privacidad.html" target="_blank" rel="noopener">aviso
-        de privacidad</a>. Las fracciones que marques no se guardan en ninguna parte: tu
-        plan se arma en este navegador.
-      </p>
       <button type="submit" id="entrar">Entrar</button>
       <div id="error" class="error oculto" role="alert"></div>
     </form>
@@ -159,6 +149,7 @@
       <input type="email" name="correo">
       <input type="text" name="publicidad">
       <input type="text" name="fecha">
+      <input type="text" name="fuente">
       <input type="text" name="bot-field">
     </form>
   </section>
@@ -189,7 +180,40 @@
       <button type="button" class="secundario" id="volver">Cambiar mis actividades</button>
     </div>
     <div id="lista"></div>
-    <p class="chico tenue noimp" id="pie-edicion"></p>
+
+    <section class="noimp" id="caja-correo" style="margin:34px 0 0">
+      <h2>¿Te avisamos cuando algo de esto cambie?</h2>
+      <p class="tenue">La norma se sigue moviendo. Si un formato de los descargables se
+      actualiza por una reforma, o si se publica una corrección al libro, te lo decimos
+      por correo. Nada más para eso.</p>
+      <form id="form-correo" autocomplete="on">
+        <div class="campo">
+          <label for="correo">Tu correo</label>
+          <input id="correo" name="correo" type="email" required spellcheck="false"
+                 autocomplete="email" placeholder="nombre@empresa.com">
+        </div>
+        <label class="casilla">
+          <input type="checkbox" id="sinpublicidad">
+          <span>No quiero recibir invitaciones ni publicidad de GMC360 y 360Educa.</span>
+        </label>
+        <p class="legal">
+          Tu correo lo trata OTERCES Consultores de México, S.A. de C.V. («GMC 360») para
+          los fines del <a href="aviso-privacidad.html" target="_blank" rel="noopener">aviso
+          de privacidad</a>. No lo compartimos con nadie y lo puedes dar de baja cuando
+          quieras.
+        </p>
+        <button type="submit" id="avisenme">Avísenme</button>
+        <div id="error-correo" class="error oculto" role="alert"></div>
+      </form>
+      <p class="gracias oculto" id="gracias">
+        <b>Anotado.</b> Te escribimos sólo si algo cambia. Tu plan sigue abajo y lo puedes
+        bajar o imprimir las veces que quieras.
+      </p>
+    </section>
+
+    <p class="chico tenue noimp" id="pie-edicion" style="margin-top:30px"></p>
+    <p class="chico tenue noimp">¿Una duda sobre el libro, o un formato que no te cuadra?
+    Escríbenos a <a href="mailto:impacto@gmc360.com.mx">impacto@gmc360.com.mx</a>.</p>
   </section>
 
 </div></main>
@@ -210,11 +234,10 @@
       const r = await fetch('/.netlify/functions/plan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ clave: $('#clave').value, correo: $('#correo').value }),
+        body: JSON.stringify({ clave: $('#clave').value }),
       });
       const cuerpo = await r.json();
       if (!r.ok) throw new Error(cuerpo.error || 'No se pudo comprobar la clave.');
-      registrar();
       DATOS = cuerpo;
       $('#pie-edicion').textContent = DATOS.edicion;
       pintarActividades();
@@ -227,22 +250,35 @@
   });
 
   // ---- el correo, al buzón de Netlify Forms ----
-  // Se manda después de que la clave resultó buena, y a propósito no se espera la
-  // respuesta: si el buzón falla, la puerta se abre igual. Lo que se prometió en el
-  // colofón es el plan, no la lista de correos.
-  function registrar() {
+  // Se pide AL FINAL, no en la puerta. Para entonces la persona ya tiene su plan
+  // armado: dejar su correo es un gracias y no una cuota. La clave abre el sitio
+  // aunque nunca lo deje, que es lo que prometió el colofón.
+  $('#form-correo').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = $('#avisenme'), err = $('#error-correo');
+    btn.disabled = true; btn.textContent = 'Mandando…'; ver(err, false);
     const datos = new URLSearchParams({
       'form-name': 'acceso-libro',
       correo: $('#correo').value.trim(),
       publicidad: $('#sinpublicidad').checked ? 'NO quiere recibir' : 'Sí acepta recibir',
       fecha: new Date().toLocaleString('es-MX', { timeZone: 'America/Mexico_City' }),
+      fuente: 'Edición preliminar · ASONOC Monterrey 2026',
     });
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: datos.toString(),
-    }).catch(() => {});
-  }
+    try {
+      const r = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: datos.toString(),
+      });
+      if (!r.ok) throw new Error();
+      ver($('#form-correo'), false); ver($('#gracias'), true);
+    } catch {
+      err.innerHTML = 'No se pudo guardar tu correo. Mándanoslo a ' +
+        '<a href="mailto:impacto@gmc360.com.mx">impacto@gmc360.com.mx</a> y lo anotamos a mano.';
+      ver(err, true);
+      btn.disabled = false; btn.textContent = 'Avísenme';
+    }
+  });
 
   // ---- selector ----
   function pintarActividades() {

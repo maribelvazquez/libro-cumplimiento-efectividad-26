@@ -59,43 +59,53 @@ clave correcta. Por eso `plan.json` vive dentro de `netlify/functions/` y el
 
 ---
 
-## El correo de quien entra
+## El correo
 
-**Se pide, y es obligatorio.** Los correos llegan al buzón `acceso-libro` de
-**Netlify Forms** (*Netlify → Forms → acceso-libro*), donde se ven uno por uno y se
-exportan a CSV con un botón. Cada renglón trae tres cosas: el correo, la fecha con
-hora de la Ciudad de México, y si la persona marcó o no la casilla de no querer
-publicidad.
+**Se pide al final, no en la puerta.** La persona entra con su clave, marca sus
+fracciones, arma su plan, y hasta abajo aparece el ofrecimiento: «¿Te avisamos
+cuando algo de esto cambie?». Para entonces ya recibió lo que el colofón le
+prometió, así que dejar su correo es un gracias y no una cuota — y el que lo deja
+en esas condiciones lo escribe bien. En la puerta no se pide ningún dato: el acceso
+lo da la clave impresa en el ejemplar y nada más.
 
-**La clave no viaja en ese formulario.** El formulario oculto que Netlify detecta
-declara nada más `correo`, `publicidad` y `fecha`; la clave va por separado, a la
-función, y no queda registrada junto a los correos. La función tampoco escribe el
-correo en sus logs: dos copias del mismo dato personal en dos lugares distintos es
-una copia de más.
+Los correos llegan al buzón `acceso-libro` de **Netlify Forms** (*Netlify → Forms →
+acceso-libro*), donde se ven uno por uno y se exportan a CSV con un botón. Cada
+renglón trae cuatro cosas: el correo, la fecha con hora de la Ciudad de México, si
+la persona marcó la casilla de no querer publicidad, y de qué edición del libro
+venía.
 
-**Si el buzón falla, la puerta se abre igual.** El envío a Forms no se espera: lo
-que el colofón prometió es el plan, no la lista de correos.
+**La función no ve el correo.** `plan.js` recibe la clave y nada más; el correo va
+directo de la página al buzón de Forms. Así no hay dos copias del mismo dato
+personal en dos lugares distintos, y la puerta no depende del buzón: si Forms
+falla, el sitio abre igual.
 
-**Si algún día se quiere que el correo vuelva a ser opcional** son dos cambios:
-quitar el atributo `required` del campo en `index.html` y el bloque de validación
-marcado en `plan.js`.
+**Los correos del sitio**, por si cambian:
+
+| Para qué | Dirección |
+|---|---|
+| Dudas sobre el libro o los formatos | `impacto@gmc360.com.mx` |
+| Derechos ARCO y datos personales | `claudia@gmc360.com.mx` |
+
+Son dos distintos a propósito: una solicitud ARCO tiene plazos de ley y la contesta
+quien lleva ese tema; una duda sobre un formato, no.
 
 ### El aviso de privacidad
 
 Un correo es un dato personal y la LFPDPPP pide avisar para qué se usa, así que la
-puerta liga a `aviso-privacidad.html`, redactado con la misma estructura que el del
+caja liga a `aviso-privacidad.html`, redactado con la misma estructura que el del
 Laboratorio de Casos. Dice tres cosas que conviene no perder al editarlo:
 
 - Las fracciones del artículo 17 que la persona marca **no se guardan en ninguna
   parte**: el plan se arma en su navegador. Esa selección revelaría a qué
   Actividades Vulnerables se dedica su empresa.
-- La oposición a la publicidad se ejerce con la casilla de la puerta o escribiendo
-  a `claudia@gmc360.com.mx`, y no afecta el acceso.
-- Los derechos ARCO se ejercen en `claudia@gmc360.com.mx`, y la autoridad es la
-  Secretaría Anticorrupción y Buen Gobierno.
+- Si nunca deja su correo, de su paso por el sitio no queda registro.
+- La oposición a la publicidad se ejerce con la casilla o escribiendo a
+  `impacto@gmc360.com.mx`, y no afecta el acceso. Los derechos ARCO se ejercen en
+  `claudia@gmc360.com.mx`, y la autoridad es la Secretaría Anticorrupción y Buen
+  Gobierno.
 
-El domicilio, la razón social y el correo de contacto salen del aviso que ya usa
-GMC 360. Si cambian allá, cambian aquí.
+El domicilio y la razón social salen del aviso que ya usa GMC 360. Si cambian allá,
+cambian aquí.
 
 ---
 
