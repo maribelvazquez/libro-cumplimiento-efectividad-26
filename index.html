@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Del cumplimiento a la efectividad · Plan de implementación</title>
+<meta name="description" content="Herramienta de acompañamiento del libro «Del cumplimiento a la efectividad».">
+<style>
+  :root{
+    --verde:#64c27b; --verde-claro:#87d895; --carbon:#393e41; --negro:#1b1b1e;
+    --papel:#fbfbfa; --linea:#e3e4e2; --tenue:#6c7275;
+    --ancho:820px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--papel); color:var(--negro);
+    font:400 17px/1.55 "Segoe UI",system-ui,-apple-system,Helvetica,Arial,sans-serif;
+  }
+  .caja{max-width:var(--ancho); margin:0 auto; padding:0 16px}
+  header{border-bottom:1px solid var(--linea); background:#fff}
+  header .caja{padding-top:30px; padding-bottom:26px}
+  h1{margin:0 0 4px; font-size:26px; line-height:1.2; letter-spacing:-.3px}
+  .sub{margin:0; color:var(--tenue); font-size:16px}
+  main .caja{padding-top:34px; padding-bottom:70px}
+  h2{font-size:21px; margin:0 0 10px; line-height:1.25}
+  p{margin:0 0 14px}
+  .tenue{color:var(--tenue)}
+  .chico{font-size:15px}
+
+  /* ---- puerta ---- */
+  form{background:#fff; border:1px solid var(--linea); border-radius:10px; padding:22px; max-width:460px}
+  label{display:block; font-size:14px; font-weight:600; margin:0 0 5px; color:var(--carbon)}
+  input{
+    width:100%; padding:11px 12px; font-size:16px; font-family:inherit;
+    border:1px solid #cfd2d0; border-radius:7px; background:#fff; color:var(--negro);
+  }
+  input:focus{outline:2px solid var(--verde); outline-offset:1px; border-color:var(--verde)}
+  #clave{letter-spacing:.06em; text-transform:uppercase; font-variant-numeric:tabular-nums}
+  .campo+.campo{margin-top:15px}
+  .pista{font-size:13.5px; color:var(--tenue); margin:5px 0 0}
+  button{
+    font:600 16px/1 inherit; font-family:inherit; padding:12px 20px; border:0; border-radius:7px;
+    background:var(--negro); color:#fff; cursor:pointer; margin-top:18px;
+  }
+  button:hover{background:var(--carbon)}
+  button:disabled{opacity:.55; cursor:default}
+  .secundario{background:#fff; color:var(--carbon); border:1px solid #cfd2d0; margin:0}
+  .secundario:hover{background:#f2f3f2}
+  .error{
+    margin:14px 0 0; padding:11px 13px; border-radius:7px; font-size:15px;
+    background:#fdf2f2; border:1px solid #f0d4d4; color:#8a2a2a;
+  }
+
+  /* ---- selector ---- */
+  fieldset{border:0; margin:0; padding:0}
+  legend{padding:0}
+  .acts{display:grid; gap:9px; margin:16px 0 0}
+  @media(min-width:620px){.acts{grid-template-columns:1fr 1fr}}
+  .act{
+    display:flex; gap:10px; align-items:flex-start; background:#fff; cursor:pointer;
+    border:1px solid var(--linea); border-radius:9px; padding:11px 13px;
+  }
+  .act:hover{border-color:var(--verde-claro)}
+  .act input{width:auto; margin:3px 0 0; accent-color:var(--verde); flex:0 0 auto}
+  .act b{display:block; font-size:13px; color:var(--verde); letter-spacing:.04em}
+  .act span{font-size:15px; line-height:1.35}
+  .act:has(input:checked){border-color:var(--verde); background:#f6fcf8}
+
+  /* ---- resultado ---- */
+  .resumen{
+    background:#fff; border:1px solid var(--linea); border-left:4px solid var(--verde);
+    border-radius:9px; padding:18px 20px; margin:0 0 24px;
+  }
+  .cifras{display:flex; flex-wrap:wrap; gap:26px; margin:12px 0 0}
+  .cifra b{display:block; font-size:30px; line-height:1.1; font-variant-numeric:tabular-nums}
+  .cifra span{font-size:13.5px; color:var(--tenue)}
+  .grupo{margin:0 0 30px}
+  .grupo h3{
+    font-size:16px; margin:0 0 10px; padding-bottom:7px; color:var(--carbon);
+    border-bottom:2px solid var(--verde-claro);
+  }
+  .papel{border:1px solid var(--linea); border-radius:9px; background:#fff; padding:14px 16px; margin:0 0 9px}
+  .papel .doc{font-weight:600; margin:0 0 7px; line-height:1.4}
+  .papel dl{display:grid; grid-template-columns:auto 1fr; gap:3px 12px; margin:0; font-size:14.5px}
+  .papel dt{color:var(--tenue)}
+  .papel dd{margin:0}
+  .etq{
+    display:inline-block; font-size:12px; font-weight:700; letter-spacing:.05em;
+    padding:2px 8px; border-radius:20px; vertical-align:2px; margin-right:7px;
+  }
+  .ob{background:var(--negro); color:#fff}
+  .re{background:#eef0ef; color:var(--carbon)}
+  .barra{display:flex; gap:10px; flex-wrap:wrap; margin:0 0 26px}
+  .oculto{display:none}
+
+  @media print{
+    body{background:#fff; font-size:11pt}
+    header,form,fieldset,.barra,.noimp{display:none !important}
+    .papel,.resumen{break-inside:avoid; border-radius:0}
+    main .caja{padding:0}
+  }
+</style>
+</head>
+<body>
+
+<header><div class="caja">
+  <h1>Del cumplimiento a la efectividad</h1>
+  <p class="sub">Tu plan de implementación, armado con las actividades que realizas</p>
+</div></header>
+
+<main><div class="caja">
+
+  <section id="puerta">
+    <h2>Entra con la clave de tu libro</h2>
+    <p class="tenue">Está impresa en el colofón, al final del ejemplar. Cópiala tal cual, con el guion.</p>
+    <form id="formulario" autocomplete="off">
+      <div class="campo">
+        <label for="clave">Clave del libro</label>
+        <input id="clave" name="clave" required spellcheck="false" autocapitalize="characters"
+               placeholder="XXXXXX-0000" aria-describedby="pista-clave">
+        <p class="pista" id="pista-clave">No distingue mayúsculas ni espacios.</p>
+      </div>
+      <div class="campo">
+        <label for="correo">Tu correo <span class="tenue" style="font-weight:400">(opcional)</span></label>
+        <input id="correo" name="correo" type="email" spellcheck="false"
+               placeholder="nombre@empresa.com" aria-describedby="pista-correo">
+        <p class="pista" id="pista-correo">Sólo si quieres que te avisemos cuando los formatos se actualicen por un cambio normativo.</p>
+      </div>
+      <button type="submit" id="entrar">Entrar</button>
+      <div id="error" class="error oculto" role="alert"></div>
+    </form>
+  </section>
+
+  <section id="selector" class="oculto">
+    <h2>¿Qué actividades del artículo 17 realizas?</h2>
+    <p class="tenue">Marca todas las que apliquen. El plan se arma con eso: nada más los papeles que te tocan.</p>
+    <fieldset>
+      <legend class="oculto">Actividades Vulnerables</legend>
+      <div class="acts" id="acts"></div>
+    </fieldset>
+    <button type="button" id="armar" disabled>Armar mi plan</button>
+  </section>
+
+  <section id="resultado" class="oculto">
+    <div class="resumen">
+      <h2 style="margin:0">Tu plan de implementación</h2>
+      <p class="chico tenue" id="elegidas" style="margin:6px 0 0"></p>
+      <div class="cifras">
+        <div class="cifra"><b id="n-total">0</b><span>papeles en total</span></div>
+        <div class="cifra"><b id="n-ob">0</b><span>los exige la norma</span></div>
+        <div class="cifra"><b id="n-re">0</b><span>recomendación de los autores</span></div>
+      </div>
+    </div>
+    <div class="barra noimp">
+      <button type="button" class="secundario" id="csv">Bajar en Excel</button>
+      <button type="button" class="secundario" id="imprimir">Imprimir</button>
+      <button type="button" class="secundario" id="volver">Cambiar mis actividades</button>
+    </div>
+    <div id="lista"></div>
+    <p class="chico tenue noimp" id="pie-edicion"></p>
+  </section>
+
+</div></main>
+
+<script>
+(() => {
+  'use strict';
+  const $ = (s) => document.querySelector(s);
+  const ver = (el, s) => el.classList.toggle('oculto', !s);
+  let DATOS = null, SEL = new Set();
+
+  // ---- puerta ----
+  $('#formulario').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = $('#entrar'), err = $('#error');
+    btn.disabled = true; btn.textContent = 'Comprobando…'; ver(err, false);
+    try {
+      const r = await fetch('/.netlify/functions/plan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ clave: $('#clave').value, correo: $('#correo').value }),
+      });
+      const cuerpo = await r.json();
+      if (!r.ok) throw new Error(cuerpo.error || 'No se pudo comprobar la clave.');
+      DATOS = cuerpo;
+      $('#pie-edicion').textContent = DATOS.edicion;
+      pintarActividades();
+      ver($('#puerta'), false); ver($('#selector'), true);
+      $('#selector').scrollIntoView({ block: 'start' });
+    } catch (ex) {
+      err.textContent = ex.message; ver(err, true);
+      btn.disabled = false; btn.textContent = 'Entrar';
+    }
+  });
+
+  // ---- selector ----
+  function pintarActividades() {
+    $('#acts').innerHTML = DATOS.actividades.map((a) => `
+      <label class="act">
+        <input type="checkbox" value="${a.fr}" data-sector="${a.sector}">
+        <span><b>FRACCIÓN ${a.fr}</b>${a.nombre}</span>
+      </label>`).join('');
+    $('#acts').addEventListener('change', (e) => {
+      const c = e.target;
+      if (c.checked) SEL.add(c.value); else SEL.delete(c.value);
+      $('#armar').disabled = SEL.size === 0;
+    });
+  }
+
+  $('#armar').addEventListener('click', () => {
+    const sectores = new Set(
+      DATOS.actividades.filter((a) => SEL.has(a.fr)).map((a) => a.sector)
+    );
+    // Los renglones sin sector le tocan a todo mundo; los de sector, sólo a quien
+    // realiza una fracción de ese sector.
+    const mios = DATOS.renglones.filter((r) => r.sector === null || sectores.has(r.sector));
+
+    $('#n-total').textContent = mios.length;
+    $('#n-ob').textContent = mios.filter((r) => r.obligatorio).length;
+    $('#n-re').textContent = mios.filter((r) => !r.obligatorio).length;
+    $('#elegidas').textContent =
+      'Fracciones ' + [...SEL].join(', ') + ' · ' +
+      [...sectores].map((s) => DATOS.sectores[s]).join(' · ');
+
+    const orden = [...new Set(mios.map((r) => r.seccion))];
+    $('#lista').innerHTML = orden.map((sec) => `
+      <div class="grupo">
+        <h3>${esc(sec)}</h3>
+        ${mios.filter((r) => r.seccion === sec).map(tarjeta).join('')}
+      </div>`).join('');
+
+    ver($('#selector'), false); ver($('#resultado'), true);
+    $('#resultado').scrollIntoView({ block: 'start' });
+    window.__mios = mios;
+  });
+
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  const tarjeta = (r) => `
+    <div class="papel">
+      <p class="doc"><span class="etq ${r.obligatorio ? 'ob' : 're'}">${r.obligatorio ? 'LA NORMA LO EXIGE' : 'RECOMENDACIÓN'}</span>${esc(r.doc)}</p>
+      <dl>
+        <dt>Por qué</dt><dd>${esc(r.exige)}</dd>
+        <dt>Cuándo</dt><dd>${esc(r.cuando)}</dd>
+        <dt>Quién firma</dt><dd>${esc(r.firma)}</dd>
+        <dt>Cuánto se guarda</dt><dd>${esc(r.conserva)}</dd>
+      </dl>
+    </div>`;
+
+  // ---- salidas ----
+  $('#csv').addEventListener('click', () => {
+    const c = (v) => '"' + String(v).replace(/"/g, '""') + '"';
+    const filas = [['Sección','Documento','¿Lo exige la norma?','Por qué','Cuándo se genera','Quién lo firma','Cuánto se conserva','Hecho']];
+    for (const r of window.__mios) {
+      filas.push([r.seccion, r.doc, r.obligatorio ? 'Sí' : 'Recomendación', r.exige, r.cuando, r.firma, r.conserva, '']);
+    }
+    // El BOM es para que Excel en Windows abra los acentos bien.
+    const blob = new Blob(['﻿' + filas.map((f) => f.map(c).join(',')).join('\r\n')],
+                          { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'Plan_de_Implementacion.csv';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  });
+
+  $('#imprimir').addEventListener('click', () => window.print());
+  $('#volver').addEventListener('click', () => {
+    ver($('#resultado'), false); ver($('#selector'), true);
+    $('#selector').scrollIntoView({ block: 'start' });
+  });
+})();
+</script>
+</body>
+</html>

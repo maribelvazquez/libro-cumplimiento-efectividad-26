@@ -1,0 +1,28 @@
+# Sitio estático: no hay nada que compilar. La única pieza con lógica es la
+# función que valida la clave, y vive en netlify/functions.
+[build]
+  publish = "."
+  functions = "netlify/functions"
+  command = ""
+
+# El plan se entrega SÓLO por la función, nunca como archivo. Si alguien pide
+# /netlify/functions/plan.json directamente, se le niega: de lo contrario la
+# clave sería decorativa.
+[[redirects]]
+  from = "/netlify/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "no-referrer"
+
+# Los descargables se sirven como adjunto, no se abren en el navegador.
+[[headers]]
+  for = "/descargables/*"
+  [headers.values]
+    Cache-Control = "no-store"
