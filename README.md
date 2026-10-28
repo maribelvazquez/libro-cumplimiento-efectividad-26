@@ -50,7 +50,7 @@ aviso-privacidad.html          Aviso de privacidad integral, LFPDPPP
 netlify/functions/plan.js      Valida la clave y entrega el plan
 netlify/functions/plan.json    Los 246 renglones del libro, por capítulo y sector
 netlify.toml                   Configuración del sitio
-descargables/                  Los formatos en Excel (pendientes)
+descargables/                  Los 19 formatos del aula de Oaxaca
 ```
 
 El plan **no** es un archivo del sitio: lo devuelve la función y sólo con la
@@ -146,6 +146,29 @@ Cada archivo que se agregue a `descargables/` queda disponible en cuanto se suba
 
 ---
 
+## Los formatos, y una cosa que hay que decidir
+
+Los diecinueve archivos de `descargables/` salieron de
+`maribelvazquez/aula-av-oaxaca`, con los nombres exactos que citan los capítulos.
+El catálogo —cómo se agrupan y qué dice cada uno— vive en `plan.json`, junto al
+plan, así que la sección del sitio se arma sola y no hay que tocar el HTML para
+agregar o quitar uno. Los dos que el libro menciona por su nombre
+(`Diagnostico_de_Brecha_Anexos.xlsx` y `Plan_de_Implementacion.xlsx`) van marcados
+«EN EL LIBRO».
+
+**Pero son archivos estáticos.** El plan sí está detrás de la clave; los archivos
+no: quien conozca la ruta `/descargables/<nombre>.xlsx` los baja sin clave, y los
+nombres están impresos en el libro.
+
+Hoy eso da igual, porque **los mismos diecinueve archivos están en el repositorio
+público `aula-av-oaxaca`** y cualquiera los baja de ahí. Protegerlos aquí sería
+teatro mientras siga así. Si algún día ese repositorio se hace privado, entonces sí
+vale la pena mover estos archivos a `netlify/functions/descargables/` y entregarlos
+por función, como ya se hace con el plan: son unas treinta líneas y un
+`included_files` en el `netlify.toml`.
+
+---
+
 ## El dominio, más adelante
 
 La edición preliminar imprime `libro-cumplimiento-efectividad.netlify.app` porque
@@ -158,7 +181,8 @@ registro CNAME en el DNS del dominio. El sitio no cambia; sólo la dirección.
 
 ## Pendiente
 
-- Los nueve formatos en Excel que los capítulos citan por su nombre.
+- Decidir si los formatos deben quedar detrás de la clave (hoy son archivos
+  estáticos: quien conozca la ruta los baja sin clave). Ver abajo.
 - Que `CLAVE_LIBRO` esté configurada **antes** de imprimir el colofón, y que alguien
   entre una vez con la clave para comprobar que la puerta abre.
 - Que el buzón `acceso-libro` aparezca en *Netlify → Forms* después del primer

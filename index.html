@@ -47,6 +47,23 @@
   .casilla input{width:auto; flex:0 0 auto; margin:2px 0 0; accent-color:var(--verde)}
   .legal{font-size:13.5px; line-height:1.45; color:var(--tenue); margin:15px 0 0}
   .legal a{color:var(--carbon)}
+  /* ---- descargables ---- */
+  .descarga{
+    display:flex; gap:13px; align-items:baseline; background:#fff; text-decoration:none; color:inherit;
+    border:1px solid var(--linea); border-radius:9px; padding:13px 16px; margin:0 0 8px;
+  }
+  .descarga:hover{border-color:var(--verde); background:#f6fcf8}
+  .descarga .ext{
+    flex:0 0 auto; font-size:11px; font-weight:700; letter-spacing:.05em; color:var(--carbon);
+    background:#eef0ef; border-radius:4px; padding:3px 7px;
+  }
+  .descarga .cuerpo{min-width:0}
+  .descarga .t{font-weight:600; line-height:1.35}
+  .descarga .q{font-size:14.5px; color:var(--tenue); line-height:1.4; margin:3px 0 0}
+  .enlibro{
+    display:inline-block; font-size:11px; font-weight:700; letter-spacing:.05em; margin-left:8px;
+    background:var(--verde); color:#fff; border-radius:20px; padding:2px 8px; vertical-align:1px;
+  }
   .grupos{display:grid; gap:10px; margin:16px 0 0}
   @media(min-width:620px){.grupos{grid-template-columns:1fr 1fr}}
   .grupo-tarjeta{
@@ -191,7 +208,14 @@
     </div>
     <div id="lista"></div>
 
-    <section class="noimp" id="caja-correo" style="margin:34px 0 0">
+    <section class="noimp oculto" id="caja-descargas" style="margin:38px 0 0">
+      <h2>Los formatos</h2>
+      <p class="tenue">Los diecinueve formatos que acompañan al libro, ya usados en aula. Los
+      dos que los capítulos mencionan por su nombre van marcados.</p>
+      <div id="descargas"></div>
+    </section>
+
+    <section class="noimp" id="caja-correo" style="margin:38px 0 0">
       <h2>¿Te avisamos cuando algo de esto cambie?</h2>
       <p class="tenue">La norma se sigue moviendo. Si un formato de los descargables se
       actualiza por una reforma, o si se corrige algo del libro, te lo decimos por correo.
@@ -292,6 +316,26 @@
     }
   });
 
+  // ---- los formatos ----
+  function pintarDescargas() {
+    const d = DATOS.descargables || [];
+    if (!d.length) return;
+    const grupos = [...new Set(d.map((x) => x.g))];
+    $('#descargas').innerHTML = grupos.map((g) => `
+      <div class="grupo">
+        <h3>${esc(g)}</h3>
+        ${d.filter((x) => x.g === g).map((x) => `
+          <a class="descarga" href="descargables/${encodeURIComponent(x.a)}" download>
+            <span class="ext">${esc(x.a.split('.').pop().toUpperCase())}</span>
+            <span class="cuerpo">
+              <span class="t">${esc(x.t)}${x.libro ? '<span class="enlibro">EN EL LIBRO</span>' : ''}</span>
+              <p class="q">${esc(x.q)}</p>
+            </span>
+          </a>`).join('')}
+      </div>`).join('');
+    ver($('#caja-descargas'), true);
+  }
+
   // ---- el correo, al buzón de Netlify Forms ----
   // Se pide AL FINAL, no en la puerta. Para entonces la persona ya tiene su plan
   // armado: dejar su correo es un gracias y no una cuota. La clave abre el sitio
@@ -360,6 +404,7 @@
         ${mios.filter((r) => r.seccion === sec).map(tarjeta).join('')}
       </div>`).join('');
 
+    pintarDescargas();
     ver($('#selector'), false); ver($('#resultado'), true);
     $('#resultado').scrollIntoView({ block: 'start' });
     window.__mios = mios;

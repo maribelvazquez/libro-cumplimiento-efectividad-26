@@ -2807,5 +2807,123 @@
   "grupos": {
     "av": "https://chat.whatsapp.com/DWDJlxC7eMEIaQ4f9NXwOG",
     "fin": "https://chat.whatsapp.com/E7xzOVUCCEGLwnfSQ1UMZT"
-  }
+  },
+  "descargables": [
+    {
+      "g": "Por dónde empezar",
+      "a": "Diagnostico_de_Brecha_Anexos.xlsx",
+      "t": "Diagnóstico de brecha",
+      "q": "Cuánto trabajo te toca según tu actividad: qué ya tienes y qué falta. Es el que cita el capítulo 3.",
+      "libro": true
+    },
+    {
+      "g": "Por dónde empezar",
+      "a": "Plan_de_Implementacion.xlsx",
+      "t": "Plan de implementación",
+      "q": "Obligación por obligación, con sus fechas. Es el que citan los capítulos 3 y 17. Aquí arriba lo armaste filtrado por tus fracciones; éste trae todo.",
+      "libro": true
+    },
+    {
+      "g": "Por dónde empezar",
+      "a": "Comparativo_Anexos_2021_vs_2026.xlsx",
+      "t": "Comparativo de anexos 2021 contra 2026",
+      "q": "Los formatos viejos contra los nuevos, campo por campo."
+    },
+    {
+      "g": "Riesgos",
+      "a": "Matriz_Riesgo_EBR_Modelo.xlsx",
+      "t": "Matriz de riesgo · modelo resuelto",
+      "q": "Diecisiete hojas con un caso completo, para ver cómo queda."
+    },
+    {
+      "g": "Riesgos",
+      "a": "Matriz_Riesgo_EBR_En_Blanco.xlsx",
+      "t": "Matriz de riesgo · en blanco",
+      "q": "La misma, vacía y con las fórmulas puestas."
+    },
+    {
+      "g": "Riesgos",
+      "a": "Guia_de_uso_Matriz_EBR.docx",
+      "t": "Guía de uso de la matriz",
+      "q": "Cómo se llena y, sobre todo, cómo se lee el resultado."
+    },
+    {
+      "g": "El Manual",
+      "a": "Manual_Politicas_Internas_Modelo.docx",
+      "t": "Manual de políticas internas · modelo",
+      "q": "Veintitrés apartados mapeados contra el RCG 37 Bis."
+    },
+    {
+      "g": "El Manual",
+      "a": "Guia_Redaccion_Manual.docx",
+      "t": "Guía de redacción del Manual",
+      "q": "El método de los cuatro planos, para que no quede copiado."
+    },
+    {
+      "g": "Clientes y expediente",
+      "a": "Instrumento_Expediente_Identificacion.xlsx",
+      "t": "Expediente de identificación",
+      "q": "Requisito por requisito, persona física y moral."
+    },
+    {
+      "g": "Clientes y expediente",
+      "a": "Checklist_Beneficiario_Controlador.xlsx",
+      "t": "Beneficiario Controlador",
+      "q": "El orden de prelación y qué evidencia deja cada escalón."
+    },
+    {
+      "g": "Clientes y expediente",
+      "a": "Perfil_Alertas_y_Bitacoras.xlsx",
+      "t": "Perfil transaccional, alertas y bitácoras",
+      "q": "Los seis elementos del perfil y el registro de lo que detectes."
+    },
+    {
+      "g": "Clientes y expediente",
+      "a": "Aprobacion_PEP_Riesgo_Alto.docx",
+      "t": "Aprobación de PEP y riesgo alto",
+      "q": "El formato de aprobación que sí exige la norma."
+    },
+    {
+      "g": "Avisos y efectivo",
+      "a": "Efectivo_y_Avisos.xlsx",
+      "t": "Efectivo y Avisos",
+      "q": "Restricciones al efectivo y umbrales, con las tres bases del Reglamento."
+    },
+    {
+      "g": "Avisos y efectivo",
+      "a": "Protocolo_Aviso_24_horas.docx",
+      "t": "Protocolo del Aviso de 24 horas",
+      "q": "Quién detecta, quién decide y con qué evidencia."
+    },
+    {
+      "g": "Avisos y efectivo",
+      "a": "Guia_Cambios_en_Sistema.docx",
+      "t": "Cambios en el sistema",
+      "q": "Lo que tu proveedor necesita saber para ajustarlo."
+    },
+    {
+      "g": "Avisos y efectivo",
+      "a": "Programa_Capacitacion.xlsx",
+      "t": "Programa de capacitación",
+      "q": "La malla del año y la evidencia de cada sesión."
+    },
+    {
+      "g": "Si llega la autoridad",
+      "a": "Requerimientos_y_Dictamen.xlsx",
+      "t": "Requerimientos y dictamen",
+      "q": "Los plazos del requerimiento y el índice del dictamen."
+    },
+    {
+      "g": "Si llega la autoridad",
+      "a": "Calculadora_Sanciones_LFPIORPI_2026.xlsx",
+      "t": "Calculadora de sanciones",
+      "q": "Cada incumplimiento a su escalón, y a pesos con la UMA vigente."
+    },
+    {
+      "g": "Si llega la autoridad",
+      "a": "Plantilla_Reconocimiento_Expreso.docx",
+      "t": "Reconocimiento expreso",
+      "q": "La autocorrección del L 55, con su árbol de decisión."
+    }
+  ]
 }
